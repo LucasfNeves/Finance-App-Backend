@@ -1,0 +1,7 @@
+{
+    "*.js": [
+      "npx eslint --fix",
+      "npx prettier --write"
+    ]
+  }
+  
