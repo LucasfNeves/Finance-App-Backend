@@ -1,3 +1,3 @@
-const nome = ''
+const nome = 'v'
 
 console.log(nome)
