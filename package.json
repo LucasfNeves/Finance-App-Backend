@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
     "migrations": "node src/db/postgres/migrations/exec.js",
-    "start:dev" : "node index.js"
+    "start:dev": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -24,9 +24,11 @@
     "prettier": "^3.3.2"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "gp": "^0.0.1",
-    "pg": "^8.12.0"
+    "pg": "^8.12.0",
+    "uuid": "^10.0.0"
   }
 }
