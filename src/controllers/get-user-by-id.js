@@ -10,14 +10,23 @@ export class GetUserByIdController {
       const isIdValid = validator.isUUID(userId)
 
       if (!isIdValid) {
-        return baadRequest({
-          message: 'The provided id is not valid',
-        })
+        return {
+          statusCode: 404,
+          body: {
+            message: 'The provided id is not valid',
+          },
+        }
       }
 
       const getUserByIdUseCase = new GetUserByIdUseCase()
 
       const user = await getUserByIdUseCase.execute(userId)
+
+      if (!user) {
+        return baadRequest({
+          messge: 'User not found',
+        })
+      }
 
       return ok(user)
     } catch (error) {
