@@ -5,6 +5,7 @@ export class PostgresUpdateUserRepository {
     const updateFields = [] // [first_name = $1, lastname = $2]
     const updateValues = [] // [Lucs, Farias]
 
+    //Object.Keys retorna  chave do objeto, no caso "first_name" por exemplo
     Object.keys(updateUserParams).forEach((key) => {
       updateFields.push(`${key} = ${updateValues.length + 1}`)
       updateValues.push(updateUserParams[key])
