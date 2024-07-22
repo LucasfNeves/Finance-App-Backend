@@ -1,7 +1,12 @@
-import validator from 'validator'
 import { CreateUserUseCase } from '../use-cases/create-user.js'
-import { baadRequest, created, serverError } from './helpers.js'
+import { baadRequest, created, serverError } from './helpers/http.js'
 import { EmailAlreadyInUseError } from '../errors/user.js'
+import {
+  checkIfEmailIsValid,
+  checkIfPasswordIsValid,
+  generateEmailAlreadyInUseResponse,
+  generateInvalidPasswordResponse,
+} from './helpers/user.js'
 
 export class CreateUserController {
   async execute(htppRequest) {
@@ -16,20 +21,16 @@ export class CreateUserController {
         }
       }
 
-      const passwordIsValid = params.password.length < 6
+      const passwordIsValid = checkIfPasswordIsValid(params.password)
 
-      if (passwordIsValid) {
-        return baadRequest({
-          message: 'Password must be at least 6 characters',
-        })
+      if (!passwordIsValid) {
+        return generateInvalidPasswordResponse()
       }
 
-      const emailIsValid = validator.isEmail(params.email)
+      const emailIsValid = checkIfEmailIsValid(params.email)
 
       if (!emailIsValid) {
-        return baadRequest({
-          message: 'Invalid e-mail, please provide valid one.',
-        })
+        return generateEmailAlreadyInUseResponse()
       }
 
       // Chamar o use-case
