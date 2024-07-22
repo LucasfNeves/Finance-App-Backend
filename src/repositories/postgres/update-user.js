@@ -1,27 +1,32 @@
-import { PostgresClient } from '../../db/postgres/client'
+import { PostgresClient } from '../../db/postgres/client.js'
 
 export class PostgresUpdateUserRepository {
   async execute(userId, updateUserParams) {
-    const updateFields = [] // [first_name = $1, lastname = $2]
-    const updateValues = [] // [Lucs, Farias]
+    // Arrays para armazenar os campos e valores de atualização
+    const updateFields = []
+    const updateValues = []
 
-    //Object.Keys retorna  chave do objeto, no caso "first_name" por exemplo
+    // Itera sobre as chaves do objeto updateUserParams para criar as partes da consulta
     Object.keys(updateUserParams).forEach((key) => {
-      updateFields.push(`${key} = ${updateValues.length + 1}`)
+      updateFields.push(`${key} = $${updateValues.length + 1}`)
       updateValues.push(updateUserParams[key])
     })
 
+    // Adiciona o userId como último parâmetro
     updateValues.push(userId)
 
+    // Cria a consulta de atualização
     const updateQuery = `
-            UPDATE users
-            SET ${updateFields.join(', ')}
-            WHERE id - ${updateValues.length}
-            RETURNING *
-        `
+      UPDATE users
+      SET ${updateFields.join(', ')}
+      WHERE id = $${updateValues.length}
+      RETURNING *
+    `
 
-    const updatedUser = await PostgresClient.query(updateQuery, updateValues)
+    // Executa a consulta
+    const result = await PostgresClient.query(updateQuery, updateValues)
 
-    return updatedUser[0]
+    // Retorna a primeira linha do resultado
+    return result[0]
   }
 }

@@ -1,9 +1,9 @@
-import { EmailAlreadyInUseError } from '../errors/user'
-import { GetUserByEmailRepository } from '../repositories/postgres/get-user-by-email'
+import { EmailAlreadyInUseError } from '../errors/user.js'
+import { GetUserByEmailRepository } from '../repositories/postgres/get-user-by-email.js'
 import bcrypt from 'bcrypt'
-import { PostgresUpdateUserRepository } from '../repositories/postgres/update-user'
+import { PostgresUpdateUserRepository } from '../repositories/postgres/update-user.js'
 
-export class UpdteUserUseCase {
+export class UpdateUserUseCase {
   async execute(userId, updateUserParams) {
     // Se o email estiver sendo atualizado verificar se ele já está em uso
     if (updateUserParams.email) {
@@ -13,7 +13,7 @@ export class UpdteUserUseCase {
         updateUserParams.email,
       )
 
-      if (userWithProvideEmail) {
+      if (userWithProvideEmail && userWithProvideEmail.id !== userId) {
         throw new EmailAlreadyInUseError(updateUserParams.email)
       }
     }
