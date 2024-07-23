@@ -1,5 +1,5 @@
 import validator from 'validator'
-import { baadRequest } from './http'
+import { baadRequest } from './http.js'
 
 export const generateInvalidPasswordResponse = () => {
   return baadRequest({
