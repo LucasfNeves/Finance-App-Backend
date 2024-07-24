@@ -1,6 +1,6 @@
 import { PostgresClient } from '../../db/postgres/client'
 
-export class PostgresDeleteUser {
+export class PostgresDeleteUserRepository {
   async execute(userId) {
     const deletedUser = await PostgresClient.query(
       `
