@@ -1,13 +1,12 @@
-import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
+import { DeleteUserUseCase } from '../use-cases/delete-user.js'
 import {
   checkIfIdIsValid,
   generateInvalidIdResponse,
-  baadRequest,
   ok,
   serverError,
 } from './helpers/index.js'
 
-export class GetUserByIdController {
+export class DeleteUserController {
   async execute(httpRequest) {
     try {
       const { userId } = httpRequest.params
@@ -18,19 +17,14 @@ export class GetUserByIdController {
         return generateInvalidIdResponse()
       }
 
-      const getUserByIdUseCase = new GetUserByIdUseCase()
+      const deleteUserUseCase = new DeleteUserUseCase()
 
-      const user = await getUserByIdUseCase.execute(userId)
+      const deletedUser = await deleteUserUseCase.execute(userId)
 
-      if (!user) {
-        return baadRequest({
-          message: 'User not found',
-        })
-      }
-
-      return ok(user)
+      return ok(deletedUser)
     } catch (error) {
       console.log(error)
+
       return serverError()
     }
   }
