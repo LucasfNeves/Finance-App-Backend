@@ -5,6 +5,13 @@ export const baadRequest = (body) => {
   }
 }
 
+export const notFound = (body) => {
+  return {
+    statusCode: 404,
+    body,
+  }
+}
+
 export const created = (body) => {
   return {
     statusCode: 201,
