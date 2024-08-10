@@ -2,6 +2,8 @@ import { PostgresClient } from '../../db/postgres/client.js'
 
 export class PostgresCreateUserRepository {
   async execute(createUserParams) {
+    console.log(createUserParams.first_name)
+
     await PostgresClient.query(
       'INSERT INTO users (id, first_name, last_name, email, password) VALUES ($1, $2, $3, $4, $5)',
       [

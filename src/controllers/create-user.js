@@ -1,4 +1,3 @@
-import { CreateUserUseCase } from '../use-cases/create-user.js'
 import { EmailAlreadyInUseError } from '../errors/user.js'
 import {
   baadRequest,
@@ -11,6 +10,9 @@ import {
 } from './helpers/index.js'
 
 export class CreateUserController {
+  constructor(createUserUseCase) {
+    this.createUserUseCase = createUserUseCase
+  }
   async execute(htppRequest) {
     try {
       const params = htppRequest.body
@@ -37,9 +39,7 @@ export class CreateUserController {
 
       // Chamar o use-case
 
-      const createUserUseCase = new CreateUserUseCase()
-
-      const createdUser = await createUserUseCase.execute(params)
+      const createdUser = await this.createUserUseCase.execute(params)
 
       // retornar o status code para o usuário
 

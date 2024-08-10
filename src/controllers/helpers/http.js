@@ -5,10 +5,12 @@ export const baadRequest = (body) => {
   }
 }
 
-export const notFound = (body) => {
+export const userNotFound = () => {
   return {
     statusCode: 404,
-    body,
+    body: {
+      errorMessage: 'User not found',
+    },
   }
 }
 
