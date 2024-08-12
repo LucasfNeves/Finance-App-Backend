@@ -9,10 +9,10 @@ import { PostgresDeleteUserRepository } from '../../repositories/postgres/user/d
 import { GetUserByEmailRepository } from '../../repositories/postgres/user/get-user-by-email.js'
 import { PostgresGetUserByIdRepository } from '../../repositories/postgres/user/get-user-by-id.js'
 import { PostgresUpdateUserRepository } from '../../repositories/postgres/user/update-user.js'
-import { CreateUserUseCase } from '../../use-cases/create-user.js'
-import { DeleteUserUseCase } from '../../use-cases/delete-user.js'
-import { GetUserByIdUseCase } from '../../use-cases/get-user-by-id.js'
-import { UpdateUserUseCase } from '../../use-cases/update-user.js'
+import { CreateUserUseCase } from '../../use-cases/user/create-user.js'
+import { DeleteUserUseCase } from '../../use-cases/user/delete-user.js'
+import { GetUserByIdUseCase } from '../../use-cases/user/get-user-by-id.js'
+import { UpdateUserUseCase } from '../../use-cases/user/update-user.js'
 
 export const makeGetUserByIdController = () => {
   const getUserByIdRepository = new PostgresGetUserByIdRepository()
