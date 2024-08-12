@@ -4,11 +4,11 @@ import {
   GetUserByIdController,
   UpdateUserController,
 } from '../../controllers/index.js'
-import { PostgresCreateUserRepository } from '../../repositories/postgres/create-user.js'
-import { PostgresDeleteUserRepository } from '../../repositories/postgres/delete-user.js'
-import { GetUserByEmailRepository } from '../../repositories/postgres/get-user-by-email.js'
-import { PostgresGetUserByIdRepository } from '../../repositories/postgres/get-user-by-id.js'
-import { PostgresUpdateUserRepository } from '../../repositories/postgres/update-user.js'
+import { PostgresCreateUserRepository } from '../../repositories/postgres/user/create-user.js'
+import { PostgresDeleteUserRepository } from '../../repositories/postgres/user/delete-user.js'
+import { GetUserByEmailRepository } from '../../repositories/postgres/user/get-user-by-email.js'
+import { PostgresGetUserByIdRepository } from '../../repositories/postgres/user/get-user-by-id.js'
+import { PostgresUpdateUserRepository } from '../../repositories/postgres/user/update-user.js'
 import { CreateUserUseCase } from '../../use-cases/create-user.js'
 import { DeleteUserUseCase } from '../../use-cases/delete-user.js'
 import { GetUserByIdUseCase } from '../../use-cases/get-user-by-id.js'
