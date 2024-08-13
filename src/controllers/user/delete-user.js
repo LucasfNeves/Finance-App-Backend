@@ -1,14 +1,14 @@
 import {
   checkIfIdIsValid,
   generateInvalidIdResponse,
-  baadRequest,
+  userNotFound,
   ok,
   serverError,
-} from './helpers/index.js'
+} from '../helpers/index.js'
 
-export class GetUserByIdController {
-  constructor(getUserByIdUseCase) {
-    this.getUserByIdUseCase = getUserByIdUseCase
+export class DeleteUserController {
+  constructor(deleteUserUseCase) {
+    this.deleteUserUseCase = deleteUserUseCase
   }
   async execute(httpRequest) {
     try {
@@ -20,17 +20,16 @@ export class GetUserByIdController {
         return generateInvalidIdResponse()
       }
 
-      const user = await this.getUserByIdUseCase.execute(userId)
+      const deletedUser = await this.deleteUserUseCase.execute(userId)
 
-      if (!user) {
-        return baadRequest({
-          message: 'User not found',
-        })
+      if (!deletedUser) {
+        return userNotFound()
       }
 
-      return ok(user)
+      return ok(deletedUser)
     } catch (error) {
       console.log(error)
+
       return serverError()
     }
   }
