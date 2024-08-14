@@ -33,12 +33,6 @@ export class CreateTransactionController {
 
       if (!userIdIsValid) return generateInvalidIdResponse()
 
-      if (params.amount <= 0) {
-        return baadRequest({
-          message: 'The amount must be greater than 0.',
-        })
-      }
-
       const amountisValid = validator.isCurrency(params.amount.toString(), {
         digits_after_decimal: [2],
         allow_negatives: false,
