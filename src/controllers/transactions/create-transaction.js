@@ -2,11 +2,9 @@ import {
   baadRequest,
   created,
   serverError,
-} from '../../controllers/helpers/http.js'
-import {
   checkIfIdIsValid,
   generateInvalidIdResponse,
-} from '../../controllers/helpers/user.js'
+} from '../../controllers/helpers/index.js'
 import validator from 'validator'
 
 export class CreateTransactionController {
