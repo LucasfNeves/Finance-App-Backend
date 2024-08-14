@@ -13,6 +13,12 @@ export const generateEmailAlreadyInUseResponse = () => {
   })
 }
 
+export const requiredFieldsMissingResponse = (field) => {
+  baadRequest({
+    message: `The field ${field} is required`,
+  })
+}
+
 export const checkIfPasswordIsValid = (password) => password.length >= 6
 
 export const checkIfEmailIsValid = (email) => validator.isEmail(email)
