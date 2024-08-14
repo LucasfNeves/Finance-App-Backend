@@ -1,74 +1,21 @@
-import {
-  baadRequest,
-  created,
-  serverError,
-} from '../../controllers/helpers/http'
-import {
-  checkIfIdIsValid,
-  generateInvalidIdResponse,
-} from '../../controllers/helpers/user'
-import validator from 'validator'
+import { CreateTransactionController } from '../../controllers/transactions/create-transaction'
+import { PostgresCreateTransactionsRepository } from '../../repositories/postgres/transactions/create-transactions'
+import { PostgresGetUserByIdRepository } from '../../repositories/postgres/user/get-user-by-id'
+import { CreateTransactionUseCase } from '../../use-cases/transactions/create-transactions'
 
-export class CreateTransactionController {
-  constructor(createTransactionUseCase) {
-    this.createTransactionUseCase = createTransactionUseCase
-  }
-  async execute(httpRequest) {
-    try {
-      const params = httpRequest.body
+export const makeCreateTransactionController = () => {
+  const createTransactionRepository = new PostgresCreateTransactionsRepository()
 
-      const requiredFields = ['id', 'user_id', 'name', 'date', 'amount', 'type']
+  const getUserByIdRepository = new PostgresGetUserByIdRepository()
 
-      for (const field of requiredFields) {
-        if (!params[field] || params[field].trim().length === 0) {
-          return baadRequest({ message: `Missing param ${field}` })
-        }
-      }
+  const createTransactionUseCase = new CreateTransactionUseCase(
+    createTransactionRepository,
+    getUserByIdRepository,
+  )
 
-      const userIdIsValid = checkIfIdIsValid(params.user_id)
+  const createTransactionController = new CreateTransactionController(
+    createTransactionUseCase,
+  )
 
-      if (!userIdIsValid) return generateInvalidIdResponse()
-
-      if (params.amount <= 0) {
-        return baadRequest({
-          message: 'The amount must be greater than 0.',
-        })
-      }
-
-      const amountisValid = validator.isCurrency(params.amount.toString(), {
-        digits_after_decimal: [2],
-        allow_negatives: false,
-        decimal_separator: '.',
-      })
-
-      if (!amountisValid) {
-        return baadRequest({
-          message: 'The amount must be a valid curreny',
-        })
-      }
-
-      const type = params.type.trim().toUpperCase()
-
-      const typeValid = ['EARNING', 'EXPENSE', 'INVESTMENT'].includes(type)
-
-      if (!typeValid) {
-        return baadRequest({
-          message: 'The type must be EARNING, EXPENSE or INVESTMENT',
-        })
-      }
-
-      const transactionParams = {
-        ...params,
-        type,
-      }
-
-      const transaction =
-        await this.createTransactionUseCase.execute(transactionParams)
-
-      return created(transaction)
-    } catch (error) {
-      console.error(error)
-      return serverError()
-    }
-  }
+  return createTransactionController
 }
