@@ -1,12 +1,12 @@
-import { UserNotFoundError } from '../../errors/user'
+import { UserNotFoundError } from '../../errors/user.js'
 import {
   checkIfIdIsValid,
   generateInvalidIdResponse,
   ok,
   requiredFieldsMissingResponse,
   serverError,
-  userNotFound,
-} from '../helpers'
+  userNotFoundResponse,
+} from '../helpers/index.js'
 
 export class GetTransactionsByUserIdController {
   constructor(getTransactionsByUserIdUseCases) {
@@ -27,15 +27,16 @@ export class GetTransactionsByUserIdController {
         return generateInvalidIdResponse()
       }
 
-      const transactions =
-        await this.getTransactionsByUserIdUseCases.execute(userId)
+      const transactions = await this.getTransactionsByUserIdUseCases.execute({
+        userId,
+      })
 
       return ok(transactions)
     } catch (error) {
       console.error(error)
 
       if (error instanceof UserNotFoundError) {
-        return userNotFound()
+        return userNotFoundResponse()
       }
 
       return serverError()

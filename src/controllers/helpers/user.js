@@ -1,5 +1,5 @@
 import validator from 'validator'
-import { baadRequest } from './http.js'
+import { baadRequest, userNotFound } from './http.js'
 
 export const generateInvalidPasswordResponse = () => {
   return baadRequest({
@@ -14,9 +14,13 @@ export const generateEmailAlreadyInUseResponse = () => {
 }
 
 export const requiredFieldsMissingResponse = (field) => {
-  baadRequest({
+  return baadRequest({
     message: `The field ${field} is required`,
   })
+}
+
+export const userNotFoundResponse = () => {
+  return userNotFound({ message: 'User not found' })
 }
 
 export const checkIfPasswordIsValid = (password) => password.length >= 6
