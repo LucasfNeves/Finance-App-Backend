@@ -1,4 +1,4 @@
-import { PostgresClient } from '../../../db/postgres/client'
+import { PostgresClient } from '../../../db/postgres/client.js'
 
 export class PostgresUpdateTransactionRepository {
   async execute(userId, updateTransactionParams) {
@@ -17,7 +17,7 @@ export class PostgresUpdateTransactionRepository {
 
     // Cria a consulta de atualização
     const updateQuery = `
-      UPDATE users
+      UPDATE transactions
       SET ${updateFields.join(', ')}
       WHERE id = $${updateValues.length}
       RETURNING *

@@ -1,9 +1,9 @@
 import validator from 'validator'
-import { baadRequest, ok, serverError } from '../helpers/http'
+import { baadRequest, ok, serverError } from '../helpers/index.js'
 import {
   checkIfIdIsValid,
   generateInvalidIdResponse,
-} from '../helpers/validation'
+} from '../helpers/index.js'
 
 export class UpdateTransactionController {
   constructor(updateTransactionUseCase) {
@@ -12,10 +12,7 @@ export class UpdateTransactionController {
 
   async execute(httpRequest) {
     try {
-      const userId = httpRequest.query.userId
-      const transactionId = httpRequest.params.transactionId
-
-      const idIsValid = checkIfIdIsValid(userId)
+      const idIsValid = checkIfIdIsValid(httpRequest.params.transactionId)
 
       if (!idIsValid) {
         return generateInvalidIdResponse()
@@ -25,11 +22,11 @@ export class UpdateTransactionController {
 
       const allowedFields = ['name', 'date', 'amount', 'type']
 
-      const someFieldIsNotAllowed = Object.keys(params).some((field) =>
-        allowedFields.includes(field),
+      const someFieldIsNotAllowed = Object.keys(params).some(
+        (field) => !allowedFields.includes(field),
       )
 
-      if (!someFieldIsNotAllowed) {
+      if (someFieldIsNotAllowed) {
         return baadRequest({
           message: 'Some field is not allowed',
         })
@@ -61,13 +58,10 @@ export class UpdateTransactionController {
         }
       }
 
-      const transactionPramas = {
-        transactionId,
+      const transactions = await this.updateTransactionUseCase.execute(
+        httpRequest.params.transactionId,
         params,
-      }
-
-      const transactions =
-        this.updateTransactionUseCase.execute(transactionPramas)
+      )
 
       return ok(transactions)
     } catch (error) {
