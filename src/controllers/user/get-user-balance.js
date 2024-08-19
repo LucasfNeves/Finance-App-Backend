@@ -1,15 +1,15 @@
-import { UserNotFoundError } from '../../errors/user'
+import { UserNotFoundError } from '../../errors/user.js'
 import {
   checkIfIdIsValid,
   generateInvalidIdResponse,
   ok,
   serverError,
   userNotFoundResponse,
-} from '../helpers'
+} from '../helpers/index.js'
 
 export class GetUserBalanceController {
-  constructor(getuserBalanceUseCases) {
-    this.getuserBalanceUseCases = getuserBalanceUseCases
+  constructor(getuserBalanceUseCase) {
+    this.getuserBalanceUseCase = getuserBalanceUseCase
   }
 
   async execute(httpRequest) {
@@ -22,8 +22,9 @@ export class GetUserBalanceController {
         return generateInvalidIdResponse()
       }
 
-      const balance = this.getuserBalanceUseCases.execute({ userId })
+      console.log(userId)
 
+      const balance = await this.getuserBalanceUseCase.execute(userId)
       return ok(balance)
     } catch (error) {
       console.error(error)

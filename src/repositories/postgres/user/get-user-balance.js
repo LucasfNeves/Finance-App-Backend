@@ -2,7 +2,7 @@ import { PostgresClient } from '../../../db/postgres/client.js'
 
 export class PostgresGetUserBalanceRepository {
   async execute(userId) {
-    const balance = PostgresClient.query(
+    const balance = await PostgresClient.query(
       `
             SELECT
                 SUM(CASE WHEN type = 'EARNING' THEN amount ELSE 0 END) AS earnings,

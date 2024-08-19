@@ -24,3 +24,5 @@ CREATE TABLE IF NOT EXISTS transactions (
     amount NUMERIC(10, 2) NOT NULL,
     type transaction_type NOT NULL
 );
+
+
