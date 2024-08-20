@@ -1,4 +1,3 @@
-import validator from 'validator'
 import { baadRequest, userNotFound } from './http.js'
 
 export const generateInvalidPasswordResponse = () => {
@@ -23,6 +22,6 @@ export const userNotFoundResponse = () => {
   return userNotFound({ message: 'User not found' })
 }
 
-export const checkIfPasswordIsValid = (password) => password.length >= 6
+// export const checkIfPasswordIsValid = (password) => password.length >= 6
 
-export const checkIfEmailIsValid = (email) => validator.isEmail(email)
+// export const checkIfEmailIsValid = (email) => validator.isEmail(email)
