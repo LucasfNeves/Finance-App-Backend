@@ -19,6 +19,22 @@ model User {
   first_name    String   @db.VarChar(50)
   last_name     String   @db.VarChar(50)
   password      String   @db.VarChar(100)
+  transactions  Transaction[]
 }
 
 
+model Transaction {
+  id          String            @id @default(uuid())
+  user_id     String
+  name        String            @db.VarChar(50)
+  amount      Decimal           @db.Decimal(10, 2)
+  date        DateTime          @db.Date
+  type        TransactionType
+  user        User              @relation(fields: [user_id], references: [id])
+}
+
+enum TransactionType {
+  EARNING
+  EXPENSE
+  INVESTMENT
+}
