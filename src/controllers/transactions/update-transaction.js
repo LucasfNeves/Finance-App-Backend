@@ -1,6 +1,12 @@
 import { ZodError } from 'zod'
-import { createtransactionSchema } from '../../schemas/transaction.js'
-import { baadRequest, ok, serverError } from '../helpers/index.js'
+import {
+  baadRequest,
+  checkIfIdIsValid,
+  generateInvalidIdResponse,
+  ok,
+  serverError,
+} from '../helpers/index.js'
+import validator from 'validator'
 
 export class UpdateTransactionController {
   constructor(updateTransactionUseCase) {
@@ -11,55 +17,56 @@ export class UpdateTransactionController {
     try {
       const params = httpRequest.body
 
-      await createtransactionSchema.parseAsync(params)
+      const idIsValid = checkIfIdIsValid(httpRequest.params.transactionId)
 
-      const transactions = await this.updateTransactionUseCase.execute(params)
+      if (!idIsValid) {
+        return generateInvalidIdResponse()
+      }
 
-      return ok(transactions)
+      const allowedFields = ['name', 'date', 'amount', 'type']
 
-      // const idIsValid = checkIfIdIsValid(httpRequest.params.transactionId)
+      const someFieldIsNotAllowed = Object.keys(params).some(
+        (field) => !allowedFields.includes(field),
+      )
 
-      // if (!idIsValid) {
-      //   return generateInvalidIdResponse()
-      // }
+      if (someFieldIsNotAllowed) {
+        return baadRequest({
+          message: 'Some field is not allowed',
+        })
+      }
 
-      // const allowedFields = ['name', 'date', 'amount', 'type']
+      if (params.amount) {
+        const amountisValid = validator.isCurrency(params.amount.toString(), {
+          digits_after_decimal: [2],
+          allow_negatives: false,
+          decimal_separator: '.',
+        })
 
-      // const someFieldIsNotAllowed = Object.keys(params).some(
-      //   (field) => !allowedFields.includes(field),
-      // )
+        if (!amountisValid) {
+          return baadRequest({
+            message: 'The amount must be a valid curreny',
+          })
+        }
+      }
 
-      // if (someFieldIsNotAllowed) {
-      //   return baadRequest({
-      //     message: 'Some field is not allowed',
-      //   })
-      // }
+      if (params.type) {
+        const type = params.type.trim().toUpperCase()
 
-      // if (params.amount) {
-      //   const amountisValid = validator.isCurrency(params.amount.toString(), {
-      //     digits_after_decimal: [2],
-      //     allow_negatives: false,
-      //     decimal_separator: '.',
-      //   })
+        const typeValid = ['EARNING', 'EXPENSE', 'INVESTMENT'].includes(type)
 
-      //   if (!amountisValid) {
-      //     return baadRequest({
-      //       message: 'The amount must be a valid curreny',
-      //     })
-      //   }
-      // }
+        if (!typeValid) {
+          return baadRequest({
+            message: 'The type must be EARNING, EXPENSE or INVESTMENT',
+          })
+        }
+      }
 
-      // if (params.type) {
-      //   const type = params.type.trim().toUpperCase()
+      const updateTransaction = await this.updateTransactionUseCase.execute(
+        httpRequest.params.transactionId,
+        params,
+      )
 
-      //   const typeValid = ['EARNING', 'EXPENSE', 'INVESTMENT'].includes(type)
-
-      //   if (!typeValid) {
-      //     return baadRequest({
-      //       message: 'The type must be EARNING, EXPENSE or INVESTMENT',
-      //     })
-      //   }
-      // }
+      return ok(updateTransaction)
     } catch (error) {
       if (error instanceof ZodError) {
         return baadRequest({

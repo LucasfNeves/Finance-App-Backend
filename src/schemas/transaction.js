@@ -38,7 +38,7 @@ export const createtransactionSchema = z.object({
       message: 'Amount must be greater than 0',
     })
     .refine((value) =>
-      validator.isCurrency(value.amount.toString(), {
+      validator.isCurrency(value.toString(), {
         digits_after_decimal: [2],
         allow_negatives: false,
         decimal_separator: '.',
