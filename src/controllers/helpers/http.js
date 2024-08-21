@@ -14,6 +14,13 @@ export const userNotFound = () => {
   }
 }
 
+export const notFoundError = ({ errorMessage }) => {
+  return {
+    statusCode: 404,
+    body: { errorMessage },
+  }
+}
+
 export const created = (body) => {
   return {
     statusCode: 201,
