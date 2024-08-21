@@ -1,15 +1,23 @@
-import { PostgresClient } from '../../../db/postgres/client.js'
+import { prisma } from '../../../../prisma/prisma.js'
 
 export class PostgresGetUserBalanceRepository {
   async execute(userId) {
-    const balance = await PostgresClient.query(
-      `SELECT * FROM get_user_balance($1)`,
-      [userId],
-    )
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    })
 
-    return {
-      userId,
-      ...balance[0],
-    }
+    return user
+
+    // const balance = await PostgresClient.query(
+    //   `SELECT * FROM get_user_balance($1)`,
+    //   [userId],
+    // )
+
+    // return {
+    //   userId,
+    //   ...balance[0],
+    // }
   }
 }
