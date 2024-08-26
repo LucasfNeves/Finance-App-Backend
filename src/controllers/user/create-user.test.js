@@ -138,4 +138,26 @@ describe('Create User Controller', () => {
     // assert (Fazer a sua expectativa de resultado)
     expect(result.statusCode).toBe(400)
   })
+
+  it('sould return 400 if password is lass than 6 characteres', async () => {
+    //arrange
+    const createUserController = new CreateUserController(
+      new CreateUserUseCaseStub(),
+    )
+
+    const htppRequest = {
+      body: {
+        first_name: 'Lucas',
+        last_name: 'Farias',
+        email: 'lucas.teste@gmail.com',
+        password: '123',
+      },
+    }
+
+    // act
+    const result = await createUserController.execute(htppRequest)
+
+    // assert
+    expect(result.statusCode).toBe(400)
+  })
 })
