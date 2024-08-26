@@ -96,6 +96,28 @@ describe('Create User Controller', () => {
     expect(result.statusCode).toBe(400)
   })
 
+  it('sould return 400 if email is not valid', async () => {
+    //arrange
+    const createUserController = new CreateUserController(
+      new CreateUserUseCaseStub(),
+    )
+
+    const htppRequest = {
+      body: {
+        first_name: 'Lucas',
+        last_name: 'Farias',
+        email: 'luc',
+        password: '1234567',
+      },
+    }
+
+    // act
+    const result = await createUserController.execute(htppRequest)
+
+    // assert
+    expect(result.statusCode).toBe(400)
+  })
+
   it('should return 400 if password is not provide', async () => {
     // arrange (Prepara o teste para ser executado)
     const createUserController = new CreateUserController(
