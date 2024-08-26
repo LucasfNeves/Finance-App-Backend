@@ -15,8 +15,6 @@ export class PostgresGetTransactionsByUserId {
     //   [userId],
     // )
 
-    // console.log(transactions)
-
     // return transactions
   }
 }
