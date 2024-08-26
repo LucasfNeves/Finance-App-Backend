@@ -74,4 +74,46 @@ describe('Create User Controller', () => {
     // assert (Fazer a sua expectativa de resultado)
     expect(result.statusCode).toBe(400)
   })
+
+  it('should return 400 if email is not provide', async () => {
+    // arrange (Prepara o teste para ser executado)
+    const createUserController = new CreateUserController(
+      new CreateUserUseCaseStub(),
+    )
+
+    const htppRequest = {
+      body: {
+        first_name: 'Lucas',
+        last_name: 'Farias',
+        password: '1234567',
+      },
+    }
+
+    // act (Chama o controller a ser testado)
+    const result = await createUserController.execute(htppRequest)
+
+    // assert (Fazer a sua expectativa de resultado)
+    expect(result.statusCode).toBe(400)
+  })
+
+  it('should return 400 if password is not provide', async () => {
+    // arrange (Prepara o teste para ser executado)
+    const createUserController = new CreateUserController(
+      new CreateUserUseCaseStub(),
+    )
+
+    const htppRequest = {
+      body: {
+        first_name: 'Lucas',
+        last_name: 'Farias',
+        email: 'lucas.teste@gmail.com',
+      },
+    }
+
+    // act (Chama o controller a ser testado)
+    const result = await createUserController.execute(htppRequest)
+
+    // assert (Fazer a sua expectativa de resultado)
+    expect(result.statusCode).toBe(400)
+  })
 })
