@@ -53,4 +53,25 @@ describe('Create User Controller', () => {
     // assert (Fazer a sua expectativa de resultado)
     expect(result.statusCode).toBe(400)
   })
+
+  it('should return 400 if last_name is not provide', async () => {
+    // arrange (Prepara o teste para ser executado)
+    const createUserController = new CreateUserController(
+      new CreateUserUseCaseStub(),
+    )
+
+    const htppRequest = {
+      body: {
+        first_name: 'Lucas',
+        email: 'lucas.teste@gmail.com',
+        password: '1234567',
+      },
+    }
+
+    // act (Chama o controller a ser testado)
+    const result = await createUserController.execute(htppRequest)
+
+    // assert (Fazer a sua expectativa de resultado)
+    expect(result.statusCode).toBe(400)
+  })
 })
