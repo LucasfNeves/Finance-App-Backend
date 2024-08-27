@@ -30,7 +30,7 @@ describe('Create User Controller', () => {
 
     // assert (Fazer a sua expectativa de resultado)
     expect(result.statusCode).toBe(201)
-    expect(result.body).toBe(htppRequest.body)
+    expect(result.body).toEqual(htppRequest.body)
   })
 
   it('should return 400 if first_name is not provide', async () => {
@@ -159,5 +159,30 @@ describe('Create User Controller', () => {
 
     // assert
     expect(result.statusCode).toBe(400)
+  })
+
+  // aqui usamos o spy para saber se o método foi chamado com tais parâmetros
+  it('should call CreateUserUseCase with correct params', async () => {
+    // arrange (Prepara o teste para ser executado)
+    const CreateUserUseCase = new CreateUserUseCaseStub()
+    const createUserController = new CreateUserController(CreateUserUseCase)
+
+    const httpRequest = {
+      body: {
+        first_name: 'Lucas',
+        last_name: 'Farias',
+        email: 'lucas.teste@gmail.com',
+        password: '1234567',
+      },
+    }
+
+    //você consegue monitorar certo método de certo objeto
+    const executeSpy = jest.spyOn(CreateUserUseCase, 'execute')
+
+    // act (Chama o controller a ser testado)
+    await createUserController.execute(httpRequest)
+
+    // assert (Fazer a sua expectativa de resultado)
+    expect(executeSpy).toHaveBeenCalledWith(httpRequest.body)
   })
 })
