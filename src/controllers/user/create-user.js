@@ -1,3 +1,4 @@
+import { EmailAlreadyInUseError } from '../../errors/user.js'
 import { createUserSchema } from '../../schemas/index.js'
 import { baadRequest, created, serverError } from '../helpers/index.js'
 import { ZodError } from 'zod'
@@ -47,9 +48,9 @@ export class CreateUserController {
         })
       }
 
-      // if (error instanceof EmailAlreadyInUseError) {
-      //   return baadRequest({ message: error.message })
-      // }
+      if (error instanceof EmailAlreadyInUseError) {
+        return baadRequest({ message: error.message })
+      }
 
       console.error(error)
 
