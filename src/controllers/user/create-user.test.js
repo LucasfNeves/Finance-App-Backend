@@ -198,4 +198,32 @@ describe('Create User Controller', () => {
     // assert (Fazer a sua expectativa de resultado)
     expect(executeSpy).toHaveBeenCalledWith(httpRequest.body)
   })
+
+  it('should return 500 if CreateUserUseCase throws', async () => {
+    // arrange (Prepara o teste para ser executado)
+
+    const createUserUseCase = new CreateUserUseCaseStub()
+    const createUserController = new CreateUserController(createUserUseCase)
+
+    const htppRequest = {
+      body: {
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({
+          length: 7,
+        }),
+      },
+    }
+
+    jest.spyOn(createUserUseCase, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    //act
+    const result = await createUserController.execute(htppRequest)
+
+    // assert
+    expect(result.statusCode).toBe(500)
+  })
 })
