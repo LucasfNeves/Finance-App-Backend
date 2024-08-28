@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 
 import { CreateUserController } from './create-user'
+import { faker } from '@faker-js/faker'
 
 describe('Create User Controller', () => {
   // O stub é uma classe fake, que retorna o que seria a mensagem de sucesso da classe original, para possibilitar que você consiga concluir o teste da classe que é dependente a ela
@@ -18,10 +19,12 @@ describe('Create User Controller', () => {
 
     const htppRequest = {
       body: {
-        first_name: 'Lucas',
-        last_name: 'Farias',
-        email: 'lucas.teste@gmail.com',
-        password: '1234567',
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({
+          length: 7,
+        }),
       },
     }
 
@@ -41,9 +44,11 @@ describe('Create User Controller', () => {
 
     const htppRequest = {
       body: {
-        last_name: 'Farias',
-        email: 'lucas.teste@gmail.com',
-        password: '1234567',
+        last_name: faker.person.lastName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({
+          length: 7,
+        }),
       },
     }
 
@@ -62,9 +67,11 @@ describe('Create User Controller', () => {
 
     const htppRequest = {
       body: {
-        first_name: 'Lucas',
-        email: 'lucas.teste@gmail.com',
-        password: '1234567',
+        first_name: faker.person.firstName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({
+          length: 7,
+        }),
       },
     }
 
@@ -83,9 +90,11 @@ describe('Create User Controller', () => {
 
     const htppRequest = {
       body: {
-        first_name: 'Lucas',
-        last_name: 'Farias',
-        password: '1234567',
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        password: faker.internet.password({
+          length: 7,
+        }),
       },
     }
 
@@ -104,10 +113,12 @@ describe('Create User Controller', () => {
 
     const htppRequest = {
       body: {
-        first_name: 'Lucas',
-        last_name: 'Farias',
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
         email: 'luc',
-        password: '1234567',
+        password: faker.internet.password({
+          length: 7,
+        }),
       },
     }
 
@@ -126,9 +137,9 @@ describe('Create User Controller', () => {
 
     const htppRequest = {
       body: {
-        first_name: 'Lucas',
-        last_name: 'Farias',
-        email: 'lucas.teste@gmail.com',
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        email: faker.internet.email(),
       },
     }
 
@@ -147,10 +158,10 @@ describe('Create User Controller', () => {
 
     const htppRequest = {
       body: {
-        first_name: 'Lucas',
-        last_name: 'Farias',
-        email: 'lucas.teste@gmail.com',
-        password: '123',
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({ length: 5 }),
       },
     }
 
@@ -169,10 +180,12 @@ describe('Create User Controller', () => {
 
     const httpRequest = {
       body: {
-        first_name: 'Lucas',
-        last_name: 'Farias',
-        email: 'lucas.teste@gmail.com',
-        password: '1234567',
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({
+          length: 7,
+        }),
       },
     }
 
