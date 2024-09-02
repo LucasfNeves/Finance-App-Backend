@@ -7,7 +7,7 @@ import { faker } from '@faker-js/faker'
 describe('Create User Controller', () => {
   // O stub é uma classe fake, que retorna o que seria a mensagem de sucesso da classe original, para possibilitar que você consiga concluir o teste da classe que é dependente a ela
   class CreateUserUseCaseStub {
-    execute(user) {
+    async execute(user) {
       return user
     }
   }
@@ -217,9 +217,7 @@ describe('Create User Controller', () => {
       },
     }
 
-    jest.spyOn(createUserUseCase, 'execute').mockImplementationOnce(() => {
-      throw new Error()
-    })
+    jest.spyOn(createUserUseCase, 'execute').mockRejectedValue(new Error())
 
     //act
     const result = await createUserController.execute(htppRequest)
@@ -245,9 +243,9 @@ describe('Create User Controller', () => {
       },
     }
 
-    jest.spyOn(createUserUseCase, 'execute').mockImplementationOnce(() => {
-      throw new EmailAlreadyInUseError()
-    })
+    jest
+      .spyOn(createUserUseCase, 'execute')
+      .mockRejectedValue(new EmailAlreadyInUseError(htppRequest.body.email))
 
     //act
     const result = await createUserController.execute(htppRequest)
