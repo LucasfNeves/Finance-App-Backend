@@ -74,4 +74,22 @@ describe('UpdateUserController', () => {
     //assert
     expect(response.statusCode).toBe(400)
   })
+
+  test('should return 400 when an invalid userId is provided', async () => {
+    //arrange
+    const { sut } = makeSut()
+
+    //act
+    const response = await sut.execute({
+      params: {
+        userId: 'invalid_id',
+      },
+      body: {
+        ...htppRequest.body,
+      },
+    })
+
+    //assert
+    expect(response.statusCode).toBe(400)
+  })
 })
