@@ -1,9 +1,9 @@
 import {
   checkIfIdIsValid,
   generateInvalidIdResponse,
-  baadRequest,
   ok,
   serverError,
+  userNotFoundResponse,
 } from '../helpers/index.js'
 
 export class GetUserByIdController {
@@ -23,9 +23,7 @@ export class GetUserByIdController {
       const user = await this.getUserByIdUseCase.execute(userId)
 
       if (!user) {
-        return baadRequest({
-          message: 'User not found',
-        })
+        return userNotFoundResponse()
       }
 
       return ok(user)
