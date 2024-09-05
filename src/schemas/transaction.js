@@ -26,7 +26,7 @@ export const createtransactionSchema = z.object({
     }),
   type: z.enum(['EXPENSE', 'EARNING', 'INVESTMENT'], {
     errorMap: () => ({
-      message: 'Type must be EXPENSE, EARNING or INVESTMENT.',
+      message: 'Type must be EXPENSE, EARNING, or INVESTMENT.',
     }),
   }),
   amount: z
@@ -37,11 +37,16 @@ export const createtransactionSchema = z.object({
     .min(1, {
       message: 'Amount must be greater than 0',
     })
-    .refine((value) =>
-      validator.isCurrency(value.toString(), {
-        digits_after_decimal: [2],
-        allow_negatives: false,
-        decimal_separator: '.',
-      }),
+    .refine(
+      (value) =>
+        validator.isCurrency(value.toFixed(2), {
+          digits_after_decimal: [2],
+          allow_negatives: false,
+          decimal_separator: '.',
+        }),
+      {
+        message:
+          'Amount must be a valid currency format with 2 decimal places.',
+      },
     ),
 })
