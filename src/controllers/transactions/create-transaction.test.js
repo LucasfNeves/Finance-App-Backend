@@ -148,4 +148,47 @@ describe('Create Transaction Controller', () => {
     // assert
     expect(response.statusCode).toBe(400)
   })
+
+  it('should return 201 when crating transaction sucessfuly (expense)', async () => {
+    // arrange
+    const { sut } = makeSut()
+
+    //act
+    const response = await sut.execute(baseHttpRequest)
+
+    //assert
+    expect(response.statusCode).toBe(201)
+  })
+
+  it('should return 201 when crating transaction sucessfuly (earning)', async () => {
+    // arrange
+    const { sut } = makeSut()
+
+    //act
+    const response = await sut.execute({
+      body: {
+        ...baseHttpRequest.body,
+        type: 'EARNING',
+      },
+    })
+
+    //assert
+    expect(response.statusCode).toBe(201)
+  })
+
+  it('should return 201 when crating transaction sucessfuly (investment)', async () => {
+    // arrange
+    const { sut } = makeSut()
+
+    //act
+    const response = await sut.execute({
+      body: {
+        ...baseHttpRequest.body,
+        type: 'INVESTMENT',
+      },
+    })
+
+    //assert
+    expect(response.statusCode).toBe(201)
+  })
 })
