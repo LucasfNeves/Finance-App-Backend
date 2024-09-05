@@ -20,10 +20,10 @@ describe('Create Transaction Controller', () => {
   }
 
   const makeSut = () => {
-    const createTransactionUseCasecre = new CreateTransactionUseCaseStub()
-    const sut = new CreateTransactionController(createTransactionUseCasecre)
+    const createTransactionUseCase = new CreateTransactionUseCaseStub()
+    const sut = new CreateTransactionController(createTransactionUseCase)
 
-    return { sut, createTransactionUseCasecre }
+    return { sut, createTransactionUseCase }
   }
 
   it('should return 201 when crating transaction sucessfuly', async () => {
@@ -206,5 +206,21 @@ describe('Create Transaction Controller', () => {
 
     // assert
     expect(response.statusCode).toBe(400)
+  })
+
+  it('should return 500 when CreateTransactionUseCase throws', async () => {
+    // arrange
+    const { sut, createTransactionUseCase } = makeSut()
+    jest
+      .spyOn(createTransactionUseCase, 'execute')
+      .mockRejectedValueOnce(() => {
+        new Error()
+      })
+
+    // act
+    const response = await sut.execute(baseHttpRequest)
+
+    // assert
+    expect(response.statusCode).toBe(500)
   })
 })
