@@ -89,4 +89,34 @@ describe('Update Transaction Controller', () => {
     //assert
     expect(response.statusCode).toBe(400)
   })
+
+  it('should return 400 when type is invalid', async () => {
+    //arrange
+    const { sut } = makeSut()
+
+    //act
+    const response = await sut.execute({
+      ...baseHttpRequest,
+      body: {
+        type: 'invalid_type',
+      },
+    })
+
+    //assert
+    expect(response.statusCode).toBe(400)
+  })
+
+  it('should return 500 when updateTransactionUseCase throws', async () => {
+    //arrange
+    const { sut, updateTransactionUseCase } = makeSut()
+
+    jest
+      .spyOn(updateTransactionUseCase, 'execute')
+      .mockRejectedValueOnce(new Error())
+    //act
+    const response = await sut.execute(baseHttpRequest)
+
+    //assert
+    expect(response.statusCode).toBe(500)
+  })
 })
