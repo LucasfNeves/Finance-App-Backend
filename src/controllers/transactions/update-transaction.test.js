@@ -66,7 +66,23 @@ describe('Update Transaction Controller', () => {
     const response = await sut.execute({
       ...baseHttpRequest,
       body: {
-        unallowedField: 'value',
+        unallowedField: 'unallowed_value',
+      },
+    })
+
+    //assert
+    expect(response.statusCode).toBe(400)
+  })
+
+  it('should return 400 when amount is invalid', async () => {
+    //arrange
+    const { sut } = makeSut()
+
+    //act
+    const response = await sut.execute({
+      ...baseHttpRequest,
+      body: {
+        amount: 'invalid_amount',
       },
     })
 
