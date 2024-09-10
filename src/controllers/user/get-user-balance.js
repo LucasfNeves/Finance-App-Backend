@@ -22,8 +22,6 @@ export class GetUserBalanceController {
         return generateInvalidIdResponse()
       }
 
-      console.log(userId)
-
       const balance = await this.getuserBalanceUseCase.execute(userId)
       return ok(balance)
     } catch (error) {
