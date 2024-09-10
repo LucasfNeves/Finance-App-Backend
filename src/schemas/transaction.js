@@ -50,3 +50,10 @@ export const createtransactionSchema = z.object({
       },
     ),
 })
+
+export const updateTransactionSchema = createtransactionSchema
+  .omit({ user_id: true })
+  .partial()
+  .strict({
+    message: 'some provided field is not allowed.',
+  })
