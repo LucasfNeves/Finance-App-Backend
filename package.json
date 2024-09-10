@@ -4,8 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test:watch": "jest --watch --passWithNoTests",
-    "test": "jest",
+    "test:watch": "jest --watch --passWithNoTests --silent",
+    "test": "--passWithNoTests --silent",
+    "test:coverage": "jest --passWithNoTests --silent --coverage",
     "prepare": "husky install",
     "migrations": "node src/db/postgres/migrations/exec.js",
     "start:dev": "node --watch index.js"

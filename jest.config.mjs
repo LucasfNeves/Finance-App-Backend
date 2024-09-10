@@ -32,6 +32,7 @@ const config = {
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
+  collectCoverageFrom: [ "src/**/*.js", "!src/**/*.d.js", "!src/**/*.spec.js", "!src/**/*.test.js" ],
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
