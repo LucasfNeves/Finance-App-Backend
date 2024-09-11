@@ -1,4 +1,4 @@
-import { userNotFound } from './http.js'
+import { baadRequest, userNotFound } from './http.js'
 
 // export const generateInvalidPasswordResponse = () => {
 //   return baadRequest({
@@ -12,11 +12,11 @@ import { userNotFound } from './http.js'
 //   })
 // }
 
-// export const requiredFieldsMissingResponse = (field) => {
-//   return baadRequest({
-//     message: `The field ${field} is required`,
-//   })
-// }
+export const requiredFieldsMissingResponse = (field) => {
+  return baadRequest({
+    message: `The field ${field} is required`,
+  })
+}
 
 export const userNotFoundResponse = () => {
   return userNotFound({ message: 'User not found' })
