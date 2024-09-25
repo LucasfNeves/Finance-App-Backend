@@ -131,4 +131,18 @@ describe('Create User Use Case', () => {
     // assert
     expect(promise).rejects.toThrow()
   })
+
+  it('should throw if IdGeneratorAdapter throws', async () => {
+    // arrange
+    const { sut, idGeneratorAdapter } = makeSut()
+    jest.spyOn(idGeneratorAdapter, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    // act
+    const promise = sut.execute(user)
+
+    // assert
+    expect(promise).rejects.toThrow()
+  })
 })
