@@ -131,4 +131,20 @@ describe('UpdateUserUseCase', () => {
     // assert
     expect(updateUserRespositorySpy).toHaveBeenCalledWith(user.id, { user })
   })
+
+  test('should ', async () => {
+    // arrange
+    const { sut, getUserByEmailRepository } = makeSut()
+    jest
+      .spyOn(getUserByEmailRepository, 'execute')
+      .mockRejectedValue(new Error())
+
+    // act
+    const promise = sut.execute(faker.string.uuid(), {
+      email: user.email,
+    })
+
+    // assert
+    await expect(promise).rejects.toThrow()
+  })
 })
