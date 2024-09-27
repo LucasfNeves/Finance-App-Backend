@@ -117,4 +117,18 @@ describe('UpdateUserUseCase', () => {
       new EmailAlreadyInUseError(user.email),
     )
   })
+
+  test('sould ', async () => {
+    //arrange
+    const { sut, updateUserRepository } = makeSut()
+    const updateUserRespositorySpy = jest.spyOn(updateUserRepository, 'execute')
+
+    // act
+    await sut.execute(user.id, {
+      user,
+    })
+
+    // assert
+    expect(updateUserRespositorySpy).toHaveBeenCalledWith(user.id, { user })
+  })
 })
