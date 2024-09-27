@@ -132,7 +132,7 @@ describe('UpdateUserUseCase', () => {
     expect(updateUserRespositorySpy).toHaveBeenCalledWith(user.id, { user })
   })
 
-  test('should ', async () => {
+  test('should throw if GetUserByEmailRepository throws', async () => {
     // arrange
     const { sut, getUserByEmailRepository } = makeSut()
     jest
@@ -142,6 +142,20 @@ describe('UpdateUserUseCase', () => {
     // act
     const promise = sut.execute(faker.string.uuid(), {
       email: user.email,
+    })
+
+    // assert
+    await expect(promise).rejects.toThrow()
+  })
+
+  test('should throw if PasswordHasher throws', async () => {
+    // arrange
+    const { sut, passwordHasherAdapter } = makeSut()
+    jest.spyOn(passwordHasherAdapter, 'execute').mockRejectedValue(new Error())
+
+    // act
+    const promise = sut.execute(faker.string.uuid(), {
+      password: user.password,
     })
 
     // assert
