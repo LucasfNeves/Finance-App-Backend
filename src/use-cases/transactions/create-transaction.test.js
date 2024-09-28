@@ -66,7 +66,7 @@ describe('CreateTransactionUseCase', () => {
     expect(result).toEqual({ ...createTransactionParams, id: 'random_id' })
   })
 
-  it('should call GetUserByIdRepository with correct values', async () => {
+  test('should call GetUserByIdRepository with correct values', async () => {
     // arrange
     const { sut, getUserByIdRepository } = makeSut()
     const executeSpy = jest.spyOn(getUserByIdRepository, 'execute')
@@ -76,5 +76,17 @@ describe('CreateTransactionUseCase', () => {
 
     // assert
     expect(executeSpy).toHaveBeenCalledWith(createTransactionParams.user_id)
+  })
+
+  test('should call IdGeneratorAdpter', async () => {
+    // arrange
+    const { sut, idGeneratorAdapter } = makeSut()
+    const executeSpy = jest.spyOn(idGeneratorAdapter, 'execute')
+
+    // act
+    await sut.execute(createTransactionParams)
+
+    // assert
+    expect(executeSpy).toHaveBeenCalled()
   })
 })
