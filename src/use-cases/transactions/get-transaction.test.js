@@ -85,4 +85,32 @@ describe('GetTransactionUseCase', () => {
     // assert
     expect(executeSpy).toHaveBeenCalled()
   })
+
+  test('should throw if GetUserByIdRepository throws', async () => {
+    // arrange
+    const { sut, getUserByIdRepository } = makeSut()
+    jest
+      .spyOn(getUserByIdRepository, 'execute')
+      .mockRejectedValueOnce(new Error())
+
+    // act
+    const promise = sut.execute(user.id)
+
+    // assert
+    await expect(promise).rejects.toThrow()
+  })
+
+  test('should throw if GetTransactionRepository throws', async () => {
+    // arrange
+    const { sut, getTransactionRepository } = makeSut()
+    jest
+      .spyOn(getTransactionRepository, 'execute')
+      .mockRejectedValueOnce(new Error())
+
+    // act
+    const promise = sut.execute(user.id)
+
+    // assert
+    await expect(promise).rejects.toThrow()
+  })
 })
