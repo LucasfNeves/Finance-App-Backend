@@ -43,4 +43,25 @@ describe('UpdateTransactionUseCase', () => {
     // assert
     expect(response).toEqual(createTransactionParams)
   })
+
+  test('should call updateTransactionRepository with correct values', async () => {
+    // arrange
+    const { sut, updateTransactionRepository } = makeSut()
+    const updateTransactionRepositorySpy = jest.spyOn(
+      updateTransactionRepository,
+      'execute',
+    )
+
+    // act
+    await sut.execute(
+      createTransactionParams.id,
+      createTransactionParams.amount,
+    )
+
+    // assert
+    expect(updateTransactionRepositorySpy).toHaveBeenCalledWith(
+      createTransactionParams.id,
+      createTransactionParams.amount,
+    )
+  })
 })
