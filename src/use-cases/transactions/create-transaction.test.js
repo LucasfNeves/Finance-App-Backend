@@ -1,22 +1,12 @@
-import { faker } from '@faker-js/faker'
-import { CreateTransactionUseCase } from './create-transactions'
-import { UserNotFoundError } from '../../errors/user'
+import { CreateTransactionUseCase } from './create-transactions.js'
+import { UserNotFoundError } from '../../errors/user.js'
+import { transaction, user } from '../../tests/index.js'
 
 /* eslint-disable no-undef */
 describe('CreateTransactionUseCase', () => {
   const createTransactionParams = {
-    user_id: faker.string.uuid(),
-    name: faker.commerce.productName(),
-    date: faker.date.anytime().toISOString(),
-    type: 'EXPENSE',
-    amount: Number(faker.finance.amount()),
-  }
-
-  const user = {
-    first_name: faker.person.firstName(),
-    last_name: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: faker.internet.password({ length: 7 }),
+    ...transaction,
+    id: undefined,
   }
 
   class CreateTransactionRepositoryStub {

@@ -1,15 +1,10 @@
-import { faker } from '@faker-js/faker'
-import { UpdateTransactionUseCase } from './update-transaction'
+import { UpdateTransactionUseCase } from './update-transaction.js'
+import { transaction } from '../../tests/index.js'
 
 /* eslint-disable no-undef */
 describe('UpdateTransactionUseCase', () => {
   const createTransactionParams = {
-    id: faker.string.uuid(),
-    user_id: faker.string.uuid(),
-    name: faker.commerce.productName(),
-    date: faker.date.anytime().toISOString(),
-    type: 'EXPENSE',
-    amount: Number(faker.finance.amount()),
+    ...transaction,
   }
 
   class UpdateTransactionRepositoryStub {
@@ -36,9 +31,10 @@ describe('UpdateTransactionUseCase', () => {
     const { sut } = makeSut()
 
     // act
-    const response = await sut.execute(createTransactionParams.id, {
-      amount: Number(faker.finance.amount()),
-    })
+    const response = await sut.execute(
+      createTransactionParams.id,
+      createTransactionParams.amount,
+    )
 
     // assert
     expect(response).toEqual(createTransactionParams)
