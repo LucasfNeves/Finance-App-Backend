@@ -1,19 +1,12 @@
 import { faker } from '@faker-js/faker'
-import { GetUserByIdController } from './get-user-by-id'
+import { GetUserByIdController } from './get-user-by-id.js'
+import { user } from '../../tests/index.js'
 
 /* eslint-disable no-undef */
 describe('GetUserByIdController', () => {
   class GetUserByIdUserCaseStub {
     async execute() {
-      return {
-        id: faker.string.uuid(),
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({
-          length: 7,
-        }),
-      }
+      return user
     }
   }
 

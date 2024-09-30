@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { faker } from '@faker-js/faker'
-import { GetUserBalanceController } from './get-user-balance'
-import { UserNotFoundError } from '../../errors/user'
+import { GetUserBalanceController } from './get-user-balance.js'
+import { UserNotFoundError } from '../../errors/user.js'
 
 describe('GetUserBalanceController', () => {
   class GetUserBalnceUsCaseStub {

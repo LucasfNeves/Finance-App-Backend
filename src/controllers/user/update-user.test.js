@@ -1,11 +1,12 @@
 import { faker } from '@faker-js/faker'
-import { UpdateUserController } from './update-user'
-import { EmailAlreadyInUseError } from '../../errors/user'
+import { UpdateUserController } from './update-user.js'
+import { EmailAlreadyInUseError } from '../../errors/user.js'
+import { user } from '../../tests/index.js'
 
 /* eslint-disable no-undef */
 describe('UpdateUserController', () => {
   class UpdateUserUseCaseStub {
-    async execute(user) {
+    async execute() {
       return user
     }
   }
