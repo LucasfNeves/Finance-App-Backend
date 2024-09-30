@@ -8,3 +8,10 @@ export const transaction = {
   type: 'EXPENSE',
   amount: Number(faker.finance.amount()),
 }
+
+export const userBalance = {
+  earnings: faker.finance.amount(),
+  expenses: faker.finance.amount(),
+  investments: faker.finance.amount(),
+  balance: faker.finance.amount(),
+}

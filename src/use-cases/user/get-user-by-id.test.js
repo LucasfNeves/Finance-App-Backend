@@ -1,16 +1,8 @@
-import { faker } from '@faker-js/faker'
-import { GetUserByIdUseCase } from './get-user-by-id'
+import { GetUserByIdUseCase } from './get-user-by-id.js'
+import { user } from '../../tests/index.js'
 
 /* eslint-disable no-undef */
 describe('GetUserByIdUseCase', () => {
-  const user = {
-    first_name: faker.person.firstName(),
-    last_name: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: faker.internet.password({
-      length: 7,
-    }),
-  }
   class GetUserByIdRepositoryStub {
     async execute() {
       return user
@@ -31,7 +23,7 @@ describe('GetUserByIdUseCase', () => {
     const { sut } = makeSut()
 
     // act
-    const result = await sut.execute(faker.string.uuid())
+    const result = await sut.execute(user.id)
 
     // expect
     expect(result).toEqual(user)
@@ -40,26 +32,24 @@ describe('GetUserByIdUseCase', () => {
   test('should call GetUserByIdRepository with correct params', async () => {
     // arrange
     const { sut, getUserByIdUseCaseRepository } = makeSut()
-    const userId = faker.string.uuid()
     const executeSpy = jest.spyOn(getUserByIdUseCaseRepository, 'execute')
 
     // act
-    await sut.execute(userId)
+    await sut.execute(user.id)
 
     // expect
-    expect(executeSpy).toHaveBeenCalledWith(userId)
+    expect(executeSpy).toHaveBeenCalledWith(user.id)
   })
 
   test('should call GetUserByIdRepository with correct params', async () => {
     // arrange
     const { sut, getUserByIdUseCaseRepository } = makeSut()
-    const userId = faker.string.uuid()
     jest
       .spyOn(getUserByIdUseCaseRepository, 'execute')
       .mockRejectedValue(new Error())
 
     // act
-    const promisse = sut.execute(userId)
+    const promisse = sut.execute(user.id)
 
     // expect
     expect(promisse).rejects.toThrow()

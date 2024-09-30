@@ -1,15 +1,18 @@
-import { faker } from '@faker-js/faker'
-import { CreateUserUseCase } from './create-user'
-import { EmailAlreadyInUseError } from '../../errors/user'
+import { CreateUserUseCase } from './create-user.js'
+import { EmailAlreadyInUseError } from '../../errors/user.js'
+import { user as fixtureUser } from '../../tests/index.js'
 
 /* eslint-disable no-undef */
 describe('Create User Use Case', () => {
+  const user = {
+    ...fixtureUser,
+    id: undefined,
+  }
   class GetUSerByEmailRepositoryStub {
     async execute() {
       return null
     }
   }
-
   class CreateUserRepositoryStub {
     async execute(user) {
       return user
@@ -26,13 +29,6 @@ describe('Create User Use Case', () => {
     execute() {
       return 'generated_id'
     }
-  }
-
-  const user = {
-    first_name: faker.person.firstName(),
-    last_name: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: faker.internet.password({ length: 7 }),
   }
 
   const makeSut = () => {

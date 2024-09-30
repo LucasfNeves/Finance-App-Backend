@@ -1,16 +1,8 @@
-import { faker } from '@faker-js/faker'
-import { DeleteUserUseCase } from './delete-user'
+import { DeleteUserUseCase } from './delete-user.js'
+import { user } from '../../tests/index.js'
 
 /* eslint-disable no-undef */
 describe('DeleteUserUserCase', () => {
-  const user = {
-    first_name: faker.person.firstName(),
-    last_name: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: faker.internet.password({
-      length: 7,
-    }),
-  }
   class DeleteUserRepositoryStub {
     async execute() {
       return user
@@ -30,7 +22,7 @@ describe('DeleteUserUserCase', () => {
     const { sut } = makeSut()
 
     // act
-    const deletedUser = await sut.execute(faker.string.uuid())
+    const deletedUser = await sut.execute(user.id)
 
     // assert
     expect(deletedUser).toEqual(user)
@@ -40,12 +32,11 @@ describe('DeleteUserUserCase', () => {
     // arrange
     const { sut, deleteUserRepository } = makeSut()
     const executeSpy = jest.spyOn(deleteUserRepository, 'execute')
-    const userId = faker.string.uuid()
 
     // act
-    await sut.execute(userId)
+    await sut.execute(user.id)
 
     // assert
-    expect(executeSpy).toHaveBeenCalledWith(userId)
+    expect(executeSpy).toHaveBeenCalledWith(user.id)
   })
 })
