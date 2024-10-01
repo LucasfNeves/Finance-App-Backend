@@ -9,6 +9,9 @@ const config = {
   coverageProvider: "v8",
   collectCoverageFrom: [ "src/**/*.js", "!src/**/*.d.js", "!src/**/*.spec.js", "!src/**/*.test.js" ],
 
+   // Ignorar diretórios desnecessários durante o watch do Jest
+  watchPathIgnorePatterns: ['<rootDir>/postgres-data'],
+
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
   //   "json",
