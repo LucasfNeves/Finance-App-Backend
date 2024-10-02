@@ -21,4 +21,17 @@ describe('PostgresDeleteUserRepository', () => {
     // Espera que o usuário seja null após a exclusão
     expect(deletedUser).toBeNull()
   })
+
+  test('should PostgresDeleteUserRepository call Prisma with correct params', async () => {
+    const sut = new PostgresDeleteUserRepository()
+    const prismaSpy = jest.spyOn(prisma.user, 'delete')
+
+    await sut.execute(user.id)
+
+    expect(prismaSpy).toHaveBeenCalledWith({
+      where: {
+        id: user.id,
+      },
+    })
+  })
 })
