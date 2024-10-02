@@ -9,6 +9,7 @@ const config = {
   coverageProvider: "v8",
   collectCoverageFrom: [ "src/**/*.js", "!src/**/*.d.js", "!src/**/*.spec.js", "!src/**/*.test.js" ],
   globalSetup: "<rootDir>/jest.global-setup.mjs",
+  setupFilesAfterEnv: ["<rootDir>/jest.setup-after-env.js"],
 
    // Ignorar diretórios desnecessários durante o watch do Jest
   watchPathIgnorePatterns: ['<rootDir>/postgres-data'],
