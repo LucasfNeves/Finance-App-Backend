@@ -44,4 +44,17 @@ describe('PostgresUpdateUserRepository', () => {
       data: updateUserParams,
     })
   })
+
+  test('should throw if Prisma throws', async () => {
+    // Arrange
+    const sut = new PostgresUpdateUserRepository()
+
+    jest.spyOn(prisma.user, 'create').mockRejectedValueOnce(new Error())
+
+    // Act
+    const promise = sut.execute(fakeUser)
+
+    // Assert
+    await expect(promise).rejects.toThrow()
+  })
 })
