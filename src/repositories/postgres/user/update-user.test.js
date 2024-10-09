@@ -5,18 +5,18 @@ import { PostgresUpdateUserRepository } from './update-user'
 
 /* eslint-disable no-undef */
 describe('PostgresUpdateUserRepository', () => {
+  const updateUserParams = {
+    id: faker.string.uuid(),
+    first_name: faker.person.firstName(),
+    last_name: faker.person.lastName(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  }
+
   test('should update user on db', async () => {
     // Arrange
     const user = await prisma.user.create({ data: fakeUser })
     const sut = new PostgresUpdateUserRepository()
-
-    const updateUserParams = {
-      id: faker.string.uuid(),
-      first_name: faker.person.firstName(),
-      last_name: faker.person.lastName(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    }
 
     // Act
     const result = await sut.execute(user.id, updateUserParams)
@@ -24,5 +24,24 @@ describe('PostgresUpdateUserRepository', () => {
     // Assert
 
     expect(result).toStrictEqual(updateUserParams)
+  })
+
+  test('should call Prisma with correct params', async () => {
+    // Arrange
+    const user = await prisma.user.create({ data: fakeUser })
+    const sut = new PostgresUpdateUserRepository()
+
+    const prismaSpy = jest.spyOn(prisma.user, 'update')
+
+    // Act
+    await sut.execute(user.id, updateUserParams)
+
+    // Assert
+    expect(prismaSpy).toHaveBeenCalledWith({
+      where: {
+        id: user.id,
+      },
+      data: updateUserParams,
+    })
   })
 })
