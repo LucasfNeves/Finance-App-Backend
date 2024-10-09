@@ -49,10 +49,10 @@ describe('PostgresUpdateUserRepository', () => {
     // Arrange
     const sut = new PostgresUpdateUserRepository()
 
-    jest.spyOn(prisma.user, 'create').mockRejectedValueOnce(new Error())
+    jest.spyOn(prisma.user, 'update').mockRejectedValueOnce(new Error())
 
     // Act
-    const promise = sut.execute(fakeUser)
+    const promise = sut.execute(updateUserParams)
 
     // Assert
     await expect(promise).rejects.toThrow()
